@@ -1,7 +1,7 @@
 const { getGaugeRewards } = require("../subgraph/services")
 const { getEpochByTimestamp, convertToUsdByAddress, convertLPToUsd, convertTo18Decimals } = require("./utils/utils")
 const { parseUnits, maxUint256, parseEther } = require("viem")
-const constants = require("./constants")
+const constants = require("./utils/constants")
 
 const emptyObj = () => {
     return {

@@ -1,4 +1,4 @@
-const constants = require("../constants")
+const constants = require("./constants")
 const { formatUnits } = require('viem')
 
 function getEpochByTimestamp(timestamp) {
