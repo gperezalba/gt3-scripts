@@ -17,13 +17,19 @@ query GET_GAUGE_REWARDS (
   ) {
     id
     epochNumber
+    epoch {
+      emission
+    }
     amount
     pairReserve0
     pairReserve1
     pairTotalSupply
     gaugeDeposited
     gauge {
+      id
       pair {
+        id
+        symbol
         token0 {
           id
           symbol

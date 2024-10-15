@@ -22,7 +22,6 @@ const constants = {
         },
     },
     EPOCH_DURATION: 1800, //30 days in mainnet,
-    SECONDS_IN_A_DAY: 86400,
     SECONDS_IN_A_YEAR: 31536000,
 }
 
