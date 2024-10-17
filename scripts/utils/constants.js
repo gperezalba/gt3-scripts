@@ -1,7 +1,7 @@
 const constants = {
     tokens: {
         "GT3": {
-            "address": "0x4200000000000000000000000000000000000006",
+            "address": "0x9e8b1041e51437ce53d4d5e0fa9276d7d1b8d8ec",
             "decimals": 18
         },
         "WBTC": {

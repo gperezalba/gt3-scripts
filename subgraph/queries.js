@@ -47,6 +47,45 @@ query GET_GAUGE_REWARDS (
 }
 `;
 
+const GET_GAUGERS = gql`
+query GET_GAUGERS (
+  $first: Int!,
+  $skip: Int!,
+  $where: Gauger_filter,
+  $orderBy: Gauger_orderBy,
+  $orderDirection: OrderDirection,
+) {
+  gaugers(
+    first: $first,
+    skip: $skip,
+    where: $where,
+    orderBy: id,
+    orderDirection: asc,
+  ) {
+    claimedRewards
+    lastClaimTimestamp
+    gauge {
+      id
+      pair {
+        id
+        symbol
+        token0 {
+          id
+          symbol
+          decimals
+        }
+        token1 {
+          id
+          symbol
+          decimals
+        }
+      }
+    }
+  }
+}
+`;
+
 module.exports = {
   GET_GAUGE_REWARDS,
+  GET_GAUGERS
 };
