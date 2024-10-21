@@ -85,7 +85,60 @@ query GET_GAUGERS (
 }
 `;
 
+const GET_BRIBE_REWARDS = gql`
+query GET_BRIBE_REWARDS (
+  $first: Int!,
+  $skip: Int!,
+  $where: BribeReward_filter,
+  $orderBy: BribeReward_orderBy,
+  $orderDirection: OrderDirection,
+) {
+  bribeRewards(
+    first: $first,
+    skip: $skip,
+    where: $where,
+    orderBy: id,
+    orderDirection: asc,
+  ) {
+    bribe {
+      id
+      totalSupply
+      pair {
+        id
+        symbol
+        token0 {
+          id
+          symbol
+          decimals
+        }
+        token1 {
+          id
+          symbol
+          decimals
+        }
+      }
+    }
+    bribeEpoch {
+      totalSupply
+    }
+    rewardToken {
+      id
+      symbol
+      decimals
+    }
+    epoch {
+      veTotalSupply
+      veDeposited
+    }
+    epochNumber
+    amount
+    amountFees
+  }
+}
+`;
+
 module.exports = {
   GET_GAUGE_REWARDS,
-  GET_GAUGERS
+  GET_GAUGERS,
+  GET_BRIBE_REWARDS
 };

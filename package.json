@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "getGaugesInfo": "node scripts/getGaugesInfo.js",
-    "getGaugesUserInfo": "node scripts/getGaugesUserInfo.js"
+    "getGaugesUserInfo": "node scripts/getGaugesUserInfo.js",
+    "getBribesInfo": "node scripts/getBribesInfo.js"
   },
   "keywords": [],
   "author": "",
