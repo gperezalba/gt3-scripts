@@ -137,8 +137,63 @@ query GET_BRIBE_REWARDS (
 }
 `;
 
+
+const GET_BRIBERS = gql`
+query GET_BRIBERS (
+  $first: Int!,
+  $skip: Int!,
+  $where: Briber_filter,
+  $orderBy: Briber_orderBy,
+  $orderDirection: OrderDirection,
+) {
+  bribers(
+    first: $first,
+    skip: $skip,
+    where: $where,
+    orderBy: id,
+    orderDirection: asc,
+  ) {
+    id
+    balance
+    rewards {
+      amount
+      rewardToken {
+        id
+        symbol
+        decimals
+      }
+    }
+    bribe {
+      id
+      rewards {
+        rewardToken {
+          id
+          symbol
+          decimals
+        }
+      }
+      pair {
+        id
+        symbol
+        token0 {
+          id
+          symbol
+          decimals
+        }
+        token1 {
+          id
+          symbol
+          decimals
+        }
+      }
+    }
+  }
+}
+`;
+
 module.exports = {
   GET_GAUGE_REWARDS,
   GET_GAUGERS,
-  GET_BRIBE_REWARDS
+  GET_BRIBE_REWARDS,
+  GET_BRIBERS
 };

@@ -1,7 +1,7 @@
 const gqlGateway = require('../subgraph/gql.gateway');
-const { GET_GAUGE_REWARDS, GET_GAUGERS, GET_BRIBE_REWARDS } = require('./queries');
+const { GET_GAUGE_REWARDS, GET_GAUGERS, GET_BRIBE_REWARDS, GET_BRIBERS } = require('./queries');
 
-const GT3_HOLESKY_GRAPH_URL = 'https://subgraph.satsuma-prod.com/15c928d3b406/tutellus/gt3-holesky/version/0.0.5/api';
+const GT3_HOLESKY_GRAPH_URL = 'https://subgraph.satsuma-prod.com/15c928d3b406/tutellus/gt3-sepolia/version/0.0.10/api';
 
 const fetcher = async ({ query, variables }) => {
   return gqlGateway.send({ uri: GT3_HOLESKY_GRAPH_URL, query, variables });
@@ -114,8 +114,43 @@ const getBribeRewards = async ({
   }
 };
 
+const getBribers = async ({
+  tokenId,
+  where
+}) => {
+  try {
+    let skip = 0;
+    let bribers = [];
+    let hasMore = true;
+    while (hasMore) {
+      const variables = {
+        first: 1000,
+        skip,
+        where: {
+          ...where,
+          tokenId: tokenId
+        },
+        orderBy: 'balance',
+        orderDirection: 'desc',
+      };
+      const { bribers: bribersChunk = [] } = await fetcher({
+        query: GET_BRIBERS,
+        variables,
+      });
+      bribers = [...bribers, ...bribersChunk];
+      hasMore = bribersChunk.length === 1000;
+      skip += 1000;
+    }
+    return bribers;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 module.exports = {
   getGaugeRewards,
   getGaugers,
-  getBribeRewards
+  getBribeRewards,
+  getBribers
 };
