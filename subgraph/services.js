@@ -1,7 +1,7 @@
 const gqlGateway = require('../subgraph/gql.gateway');
-const { GET_GAUGE_REWARDS, GET_GAUGERS, GET_BRIBE_REWARDS, GET_BRIBERS } = require('./queries');
+const { GET_GAUGE_REWARDS, GET_GAUGERS, GET_BRIBE_REWARDS, GET_BRIBERS, GET_VOTES_EPOCHES } = require('./queries');
 
-const GT3_HOLESKY_GRAPH_URL = 'https://subgraph.satsuma-prod.com/15c928d3b406/tutellus/gt3-sepolia/version/0.0.10/api';
+const GT3_HOLESKY_GRAPH_URL = 'https://subgraph.satsuma-prod.com/15c928d3b406/tutellus/gt3-sepolia-int/version/0.0.22/api';
 
 const fetcher = async ({ query, variables }) => {
   return gqlGateway.send({ uri: GT3_HOLESKY_GRAPH_URL, query, variables });
@@ -148,9 +148,46 @@ const getBribers = async ({
   }
 }
 
+const getVotesByTokenIdAndEpoch = async ({
+  tokenId,
+  epoch,
+  where
+}) => {
+  try {
+    let skip = 0;
+    let voteEpoches = [];
+    let hasMore = true;
+    while (hasMore) {
+      const variables = {
+        first: 1000,
+        skip,
+        where: {
+          ...where,
+          tokenId: tokenId,
+          epochNumber_lte: epoch
+        },
+        orderBy: 'weight',
+        orderDirection: 'desc',
+      };
+      const { voteEpoches: voteEpochesChunk = [] } = await fetcher({
+        query: GET_VOTES_EPOCHES,
+        variables,
+      });
+      voteEpoches = [...voteEpoches, ...voteEpochesChunk];
+      hasMore = voteEpochesChunk.length === 1000;
+      skip += 1000;
+    }
+    return voteEpoches;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 module.exports = {
   getGaugeRewards,
   getGaugers,
   getBribeRewards,
-  getBribers
+  getBribers,
+  getVotesByTokenIdAndEpoch
 };

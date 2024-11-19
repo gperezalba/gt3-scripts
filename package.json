@@ -8,7 +8,8 @@
     "getGaugesInfo": "node scripts/getGaugesInfo.js",
     "getGaugesUserInfo": "node scripts/getGaugesUserInfo.js",
     "getBribesInfo": "node scripts/getBribesInfo.js",
-    "getBribesTokenIdInfo": "node scripts/getBribesTokenIdInfo.js"
+    "getBribesTokenIdInfo": "node scripts/getBribesTokenIdInfo.js",
+    "getVotesByTokenIdAndEpoch": "node scripts/getVotesByTokenIdAndEpoch.js"
   },
   "keywords": [],
   "author": "",

@@ -191,9 +191,47 @@ query GET_BRIBERS (
 }
 `;
 
+const GET_VOTES_EPOCHES = gql`
+query GET_VOTES_EPOCHES (
+  $first: Int!,
+  $skip: Int!,
+  $where: VoteEpoch_filter,
+  $orderBy: VoteEpoch_orderBy,
+  $orderDirection: OrderDirection,
+) {
+  voteEpoches(
+    first: $first,
+    skip: $skip,
+    where: $where,
+    orderBy: id,
+    orderDirection: asc,
+  ) {
+    id
+    pair {
+      id
+      symbol
+      token0 {
+        id
+        symbol
+        decimals
+      }
+      token1 {
+        id
+        symbol
+        decimals
+      }
+    }
+    voter
+    weight
+    epochNumber
+  }
+}
+`;
+
 module.exports = {
   GET_GAUGE_REWARDS,
   GET_GAUGERS,
   GET_BRIBE_REWARDS,
-  GET_BRIBERS
+  GET_BRIBERS,
+  GET_VOTES_EPOCHES
 };
