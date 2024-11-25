@@ -35,11 +35,12 @@ async function main() {
         }
         const contracts = []
         briber.bribe.rewards.forEach(async reward => {
-            contracts.push({
+            const call = {
                 ...bribeContract,
                 functionName: "earned",
                 args: [reward.rewardToken.id, TOKEN_ID]
-            })
+            }
+            if (contracts.indexOf(call) == -1) contracts.push(call)
         })
         const results = await client.multicall({
             contracts: contracts
